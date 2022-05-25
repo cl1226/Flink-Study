@@ -24,7 +24,6 @@ object SlidingProcessingTimeWindowStream {
 
   def main(args: Array[String]): Unit = {
     val env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI()
-//    env.setStreamTimeCharacteristic(TimeCharacteristic.ProcessingTime)
 
     val prop = new Properties()
     prop.setProperty("bootstrap.servers", "node03:9092,node04:9092,node05:9092")
