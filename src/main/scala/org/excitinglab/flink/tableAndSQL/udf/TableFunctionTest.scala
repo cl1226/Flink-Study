@@ -5,6 +5,9 @@ import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 import org.apache.flink.table.functions.TableFunction
 import org.apache.flink.types.Row
 
+/**
+ * Table function类似于FlatMap，一对多，输入一行数据输出多行数据
+ */
 object TableFunctionTest {
 
   case class Message(device: String, time: String, data: String)
