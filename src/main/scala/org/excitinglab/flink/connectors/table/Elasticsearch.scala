@@ -38,9 +38,15 @@ object Elasticsearch {
 
     val table = tableEnv.fromDataStream(stream)
 
-    tableEnv.registerTable("test", table)
+//    tableEnv.registerTable("test", table)
+    tableEnv.createTemporaryView("test", table)
 
-    tableEnv.executeSql("insert into myUserTable select * from test")
+//    tableEnv.executeSql("insert into myUserTable select * from test")
+//    tableEnv.from("test").insertInto("myUserTable")
+
+    tableEnv.createStatementSet()
+      .addInsert("myUserTable", table)
+      .execute()
 
     env.execute()
   }
