@@ -7,6 +7,7 @@ import org.apache.flink.types.Row
 
 /**
  *  input.window(Tumble over 5.seconds on $"eventtime" as "w")
+ *  input.window(Tumble.over("5.seconds").on("eventtime").as("w"))
  *  Tumble  滚动窗口
  *  over    定义窗口长度
  *  on      用来分组（按时间间隔）或者排序（按行数）的时间字段
@@ -30,7 +31,11 @@ object SQLWindow_Tumpling {
 
     val input = tableEnv.fromDataStream(stream, $"eventtime".rowtime, $"word", $"count")
 
-    val table = input.window(Tumble over 5.seconds on $"eventtime" as "w")
+//    val table = input.window(Tumble over 5.seconds on $"eventtime" as "w")
+//      .groupBy($"word", $"w")
+//      .select($"word", $"w".start, $"w".end, $"w".rowtime, $"count".sum as "sum")
+
+    val table = input.window(Tumble.over("5.seconds").on("eventtime").as("w"))
       .groupBy($"word", $"w")
       .select($"word", $"w".start, $"w".end, $"w".rowtime, $"count".sum as "sum")
 
@@ -39,7 +44,7 @@ object SQLWindow_Tumpling {
       .map(_._2)
       .print()
 
-//    tableEnv.registerTable("test", table)
+//    tableEnv.createTemporaryView("test", table)
 
 //    tableEnv.executeSql("select timestamp.eventtime, word, count(1) as c from test group by word").print()
 
