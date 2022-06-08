@@ -1,4 +1,4 @@
-package org.excitinglab.flink.tableAndSQL.sql.window
+package org.excitinglab.flink.tableAndSQL.window.group_window
 
 import org.apache.flink.streaming.api.scala.{StreamExecutionEnvironment, _}
 import org.apache.flink.table.api._
@@ -13,7 +13,7 @@ import org.apache.flink.types.Row
  *  on      用来分组（按时间间隔）或者排序（按行数）的时间字段
  *  as      别名，必须出现在后面的groupBy中
  */
-object SQLWindow_Tumpling {
+object TumpleWindow {
 
   def main(args: Array[String]): Unit = {
 
@@ -31,13 +31,13 @@ object SQLWindow_Tumpling {
 
     val input = tableEnv.fromDataStream(stream, $"eventtime".rowtime, $"word", $"count")
 
-//    val table = input.window(Tumble over 5.seconds on $"eventtime" as "w")
-//      .groupBy($"word", $"w")
-//      .select($"word", $"w".start, $"w".end, $"w".rowtime, $"count".sum as "sum")
-
-    val table = input.window(Tumble.over("5.seconds").on("eventtime").as("w"))
+    val table = input.window(Tumble over 5.seconds on $"eventtime" as "w")
       .groupBy($"word", $"w")
       .select($"word", $"w".start, $"w".end, $"w".rowtime, $"count".sum as "sum")
+
+//    val table = input.window(Tumble.over("5.seconds").on("eventtime").as("w"))
+//      .groupBy($"word", $"w")
+//      .select($"word", $"w".start, $"w".end, $"w".rowtime, $"count".sum as "sum")
 
     tableEnv.toRetractStream[Row](table)
       .filter(_._1)

@@ -1,6 +1,5 @@
 package org.excitinglab.flink.sink
 
-import org.apache.flink.api.common.serialization.{SerializationSchema, SimpleStringSchema}
 import org.apache.flink.streaming.api.functions.source.SourceFunction
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.scala._
@@ -14,7 +13,7 @@ import scala.util.Random
 object Kafka {
 
   case class CarInfo(channelId: String, carId: String, eventTime: String, speed: Long) {
-    override def toString: String = channelId + "\t" + carId + "\t" + eventTime + "\t" + speed
+    override def toString: String = channelId + "," + carId + "," + eventTime + "," + speed
   }
 
   def main(args: Array[String]): Unit = {

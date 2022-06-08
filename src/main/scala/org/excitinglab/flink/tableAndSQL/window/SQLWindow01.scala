@@ -1,4 +1,4 @@
-package org.excitinglab.flink.tableAndSQL.sql.window
+package org.excitinglab.flink.tableAndSQL.window
 
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
