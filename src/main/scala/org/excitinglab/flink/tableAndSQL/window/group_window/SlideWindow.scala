@@ -45,7 +45,7 @@ object SlideWindow {
     val source = streamEnv.addSource(new FlinkKafkaConsumer[String]("test", new SimpleStringSchema, prop))
       .map(x => {
         val splits = x.split(",")
-        CarInfo(splits(0), splits(1), format.parse(splits(2)).getTime, splits(3).toLong)
+        CarInfo(splits(0), splits(1), format.parse(splits(2)).getTime + 8 * 3600000, splits(3).toLong)
       }).assignAscendingTimestamps(_.eventTime)
 
     val input = tableEnv.fromDataStream(source, $"channelId", $"carId", $"eventTime".rowtime, $"speed")
